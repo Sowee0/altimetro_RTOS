@@ -1,0 +1,8 @@
+LINKS IMPORTANTES
+
+https://github.com/espressif/arduino-esp32/tree/master/libraries/SD
+https://randomnerdtutorials.com/esp32-data-logging-temperature-to-microsd-card/
+https://randomnerdtutorials.com/esp32-with-bmp180-barometric-sensor/
+http://esp32.info/docs/esp_idf/html/modules.html
+https://techtutorialsx.com/2017/05/11/esp32-freertos-counting-semaphores/
+https://github.com/espressif/arduino-esp32
