@@ -38,6 +38,8 @@ SemaphoreHandle_t semaforo = xSemaphoreCreateMutex();
 //Definição de variáveis referente ao módulos
 Adafruit_BMP085 bmp;
 
+TaskHandle_t xHandle;
+
 uint8_t cardType;
 
 
@@ -75,7 +77,6 @@ void setup() {
                     NULL,             /* Parameter passed as input of the task */
                     1,                /* Priority of the task. */
                     NULL);            /* Task handle. */
-    Serial.println("Inciou Task 1");
  
   xTaskCreate(
                     taskTwo,          /* Task function. */
@@ -84,17 +85,16 @@ void setup() {
                     NULL,             /* Parameter passed as input of the task */
                     1,                /* Priority of the task. */
                     NULL);            /* Task handle. */
-    Serial.println("Inciou Task 2");
-                    
+
+ 
+  
   xTaskCreate(
                     taskEscrita,          /* Task function. */
                     "taskEscrita",        /* String with name of task. */
                     10000,            /* Stack size in bytes. */
                     NULL,             /* Parameter passed as input of the task */
                     1,                /* Priority of the task. */
-                    NULL);            /* Task handle. */
-    Serial.println("Inciou Task 3");
-  
+                    &xHandle);            /* Task handle. */
  
 }
  
@@ -157,6 +157,9 @@ void taskEscrita( void * parameter){
         Serial.println("Write failed");
     }
     file.close();
+
+  vTaskDelete(xHandle);
+    
 
 }
 
