@@ -29,10 +29,11 @@
 
 //Definições de portas
 
-#define PINO_RELE
-#define PINO_LEDR
-#define PINO_LEDG
-#define PINO_BUZZER
+#define PINO_RELE 25
+#define PINO_LEDR 27
+#define PINO_LEDG 26
+#define PINO_BUZZER 34
+#define PINO_BOTAO 35
 
 //Incluindo as bibliotecas referentes ao BMP180, SD e IMU respectivamente
 #include <Adafruit_BMP085.h>
