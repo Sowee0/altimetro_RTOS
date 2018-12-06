@@ -165,17 +165,18 @@ char erroSD  = 0;
 char erroBMP = 0;
 char erroMPU = 0;
 
+
+
 xSemaphoreTake( semaforoInicializa, 0 );
 
 Serial.println("Task de inicialização iniciada");
 
 
-  for(;;){
+  while(1){
 
-    Serial.println("Inicializando o SD");
     if(!SD.begin()){
-        Serial.println("Falhou ao montar o cartão");
-        delay(500);
+//        Serial.println("Falhou ao montar o cartão");
+//        delay(500);
         erroSD = 1;
       }
     cardType = SD.cardType();
@@ -184,18 +185,19 @@ Serial.println("Task de inicialização iniciada");
         //return;
     }
 
-    Serial.println("Inicializando o BMP");
+    //Serial.println("Inicializando o BMP");
     if(!bmp.begin()) {
-        Serial.println("Falha na inicialização do BMP180. Verifique as conexões");
-        delay(500);
+//        Serial.println("Falha na inicialização do BMP180. Verifique as conexões");
+//        delay(500);
         erroBMP = 1;
       }
-    Serial.println("Task de inicialização iniciada");
     
-    while(!mpu.begin(MPU6050_SCALE_2000DPS, MPU6050_RANGE_2G))
+    
+    if(!mpu.begin(MPU6050_SCALE_2000DPS, MPU6050_RANGE_2G))
   {
-    Serial.println("Could not find a valid MPU6050 sensor, check wiring!");
-    delay(500);
+//    Serial.println("Could not find a valid MPU6050 sensor, check wiring!");
+//    delay(500);
+    erroMPU=1;
   }
   
 
@@ -229,7 +231,6 @@ void taskLeitura( void *parameters){
 
     xSemaphoreTake(semaforoDadosProntos,portMAX_DELAY);
 
-    Serial.println("lendo meus sensores");
     dadosLidos.altura       = bmp.readAltitude(101500);
     dadosLidos.temperatura  = bmp.readTemperature();
 
