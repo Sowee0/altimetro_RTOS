@@ -336,6 +336,6 @@ void taskStatus( void *parameters){
  
 void abreParaquedas(){
 
-  digitalWrite(PINO_RELE);
+  digitalWrite(PINO_RELE, HIGH);
 }
 
