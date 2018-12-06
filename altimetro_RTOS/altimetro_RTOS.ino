@@ -91,6 +91,11 @@ void setup() {
   Serial.begin(115200);
   Wire.begin();
 
+  pinMode(PINO_BOTAO, INPUT);
+  pinMode(PINO_LEDG,  OUTPUT);
+  pinMode(PINO_LEDR,  OUTPUT);
+  pinMode(PINO_RELE,  OUTPUT);
+
     Serial.println("Inciando Tasks");
   
   //Iniciando as funções do RTOS
