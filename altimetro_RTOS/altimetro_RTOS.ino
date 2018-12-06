@@ -51,7 +51,9 @@ SemaphoreHandle_t semaforoInicializa    = xSemaphoreCreateMutex();
 SemaphoreHandle_t semaforoDadosProntos  = xSemaphoreCreateMutex();
 SemaphoreHandle_t semaforoDadosInicia   = xSemaphoreCreateMutex();
 
-TaskHandle_t handleInicializa;
+TaskHandle_t handleInicializa, handleBotao;
+
+
 
 struct structErro
 {
@@ -123,13 +125,13 @@ void setup() {
                     "taskBotao",        /* String with name of task. */
                     10000,            /* Stack size in bytes. */
                     NULL,             /* Parameter passed as input of the task */
-                    1,                /* Priority of the task. */
-                    NULL);            /* Task handle. */
+                    5,                /* Priority of the task. */
+                    &handleBotao);            /* Task handle. */
 
 
   xTaskCreate(
                     taskRecuperacao,          /* Task function. */
-                    "taskRecuepracao",        /* String with name of task. */
+                    "taskRecuperacao",        /* String with name of task. */
                     10000,            /* Stack size in bytes. */
                     NULL,             /* Parameter passed as input of the task */
                     1,                /* Priority of the task. */
