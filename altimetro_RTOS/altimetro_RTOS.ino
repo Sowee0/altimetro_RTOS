@@ -82,6 +82,7 @@ Adafruit_BMP085 bmp;
 MPU6050 mpu;
 uint8_t cardType;
 
+char statusAtual = 'e';
 
 
 void setup() {
@@ -209,6 +210,8 @@ Serial.println("Task de inicialização iniciada");
       Serial.println("Sem erros, terminando a task de inicialização!");
 
       vTaskDelete( handleInicializa );
+
+      statusAtual = 'e';
     }
   }
 }
@@ -278,12 +281,13 @@ void taskRecuperacao( void *parameters){
       
     xSemaphoreGive(semaforoInicializa);
 
+    if(statusAtual == 'g'){
     if(alturaAtual > alturaMaxima)
     alturaMaxima = alturaAtual;
 
     if(alturaAtual <= alturaMaxima - THRESHOLD_ALTURA)
     abreParaquedas();
-
+    }
 
     
     
@@ -325,9 +329,24 @@ void taskStatus( void *parameters){
       Serial.println("Erro no SD!");
     }
 
-    vTaskDelay(portTICK_PERIOD_MS * 500);
+    if(!erroSD && !erroBMP && !erroMPU){
 
-    
+    if(statusAtual == 'e'){
+
+      digitalWrite(PINO_LEDG, digitalRead(PINO_LEDG));
+      Serial.println("Status Atual: Espera");
+      
+    }
+
+    if(statusAtual == 'g'){
+
+      digitalWrite(PINO_LEDR, digitalRead(PINO_LEDR));
+      Serial.println("Status Atual: Gravando");
+      
+    }
+    }
+
+    vTaskDelay(200 / portTICK_PERIOD_MS);
 
     
     
