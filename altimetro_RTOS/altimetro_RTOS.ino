@@ -256,14 +256,67 @@ void taskLeitura( void *parameters){
 
 void taskEscrita( void *parameters){
 
+  String message = "Testinho\n";
+  File file = SD.open("/valor.txt", FILE_APPEND);
+
   while(1){
+
+   
+    
+    xSemaphoreTake(semaforoInicializa,portMAX_DELAY);
+
+    xSemaphoreTake(semaforoDadosProntos,portMAX_DELAY);
+    
+    xSemaphoreTake(semaforoBotao,portMAX_DELAY);
+    File file = SD.open("/valor.txt", FILE_APPEND);
+    
+    statusAtual = 'g';
+    
+    char message[15];
+    sprintf(message, "%d,",millis());
+    file.print(message);
+    sprintf(message, "%f,",dadosLidos.altura);
+    file.print(message);
+    sprintf(message, "%f,",dadosLidos.temperatura);
+    file.print(message);
+    sprintf(message, "%f,",dadosLidos.aceleracaoX);
+    file.print(message);
+    sprintf(message, "%f,",dadosLidos.aceleracaoY);
+    file.print(message);
+    sprintf(message, "%f,",dadosLidos.aceleracaoZ);
+    file.print(message);
+    sprintf(message, "%f,",dadosLidos.rotacaoX);
+    file.print(message);
+    sprintf(message, "%f,",dadosLidos.rotacaoY);
+    file.print(message);
+    sprintf(message, "%f,",dadosLidos.rotacaoZ);
+    file.println(message);
+    
+    file.close();
+    xSemaphoreGive(semaforoBotao);
+      
+    xSemaphoreGive(semaforoDadosProntos);
+      
+    xSemaphoreGive(semaforoInicializa);
+
+    vTaskDelay( 50 /portTICK_PERIOD_MS);
     
   }
 }
 
 void taskBotao( void *parameters){
 
+  xSemaphoreTake(semaforoBotao, portMAX_DELAY);
+
   while(1){
+
+    if(digitalRead(PINO_BOTAO)){
+    xSemaphoreGive(semaforoBotao);
+    statusAtual = 'g';
+
+    vTaskDelete( handleBotao);
+    }
+    
     
   }
 }
@@ -321,7 +374,7 @@ void taskStatus( void *parameters){
       erroSD  = erroInicializacao.sd;
       
       xSemaphoreGive(semaforoDadosInicia);
-      
+     
 
     if(erroBMP){
       Serial.println("Erro no BMP!");
