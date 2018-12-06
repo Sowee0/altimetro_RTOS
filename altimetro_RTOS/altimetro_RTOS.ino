@@ -363,7 +363,7 @@ void taskStatus( void *parameters){
   Serial.println("Task de status iniciada");
   
   while(1){
-
+      
       //Serial.println("Tentando ler o erro na task de status");
 
       xSemaphoreTake(semaforoDadosInicia,portMAX_DELAY);
@@ -393,20 +393,26 @@ void taskStatus( void *parameters){
 
     if(statusAtual == 'e'){
 
-      digitalWrite(PINO_LEDG, digitalRead(PINO_LEDG));
+      digitalWrite(PINO_LEDG, !digitalRead(PINO_LEDG));
       Serial.println("Status Atual: Espera");
+      digitalWrite(PINO_LEDR, LOW);
       
     }
 
     if(statusAtual == 'g'){
 
-      digitalWrite(PINO_LEDR, digitalRead(PINO_LEDR));
+      digitalWrite(PINO_LEDR, !digitalRead(PINO_LEDR));
       Serial.println("Status Atual: Gravando");
+      digitalWrite(PINO_LEDG, LOW);
       
     }
     }
+    else{
+      digitalWrite(PINO_LEDG, !digitalRead(PINO_LEDR));
+      digitalWrite(PINO_LEDR, !digitalRead(PINO_LEDG));
+    }
 
-    vTaskDelay(200 / portTICK_PERIOD_MS);
+    vTaskDelay(500 / portTICK_PERIOD_MS);
 
     
     
