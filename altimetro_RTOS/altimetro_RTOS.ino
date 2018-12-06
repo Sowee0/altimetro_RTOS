@@ -312,6 +312,7 @@ void taskStatus( void *parameters){
   while(1){
 
       //Serial.println("Tentando ler o erro na task de status");
+
       xSemaphoreTake(semaforoDadosInicia,portMAX_DELAY);
       //Serial.println("Consegui ler, semáforo adquirido");
         
